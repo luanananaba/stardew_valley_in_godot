@@ -1,6 +1,8 @@
 extends CharacterBody2D
 
 
+@onready var move_state_machine = $Animation/AnimationTree.get("parameters/MoveStateMachine/playback")
+
 var direction : Vector2
 var speed := 50
 
@@ -19,11 +21,18 @@ func _move() -> void:
 
 func _animate() -> void:
 	if direction:
+		move_state_machine.travel("Walk")
+		
 		var direction_animation = Vector2(round(direction.x), round(direction.y))
 		
 		$Animation/AnimationTree.set(
+			"parameters/MoveStateMachine/Idle/blend_position", direction_animation
+		)
+		$Animation/AnimationTree.set(
 			"parameters/MoveStateMachine/Walk/blend_position", direction_animation
 		)
+	else:
+		move_state_machine.travel("Idle")
 	
 	# My attempt to learn it.
 	#if direction == Vector2.RIGHT:
