@@ -8,8 +8,15 @@ var speed := 50
 
 
 func _physics_process(_delta : float) -> void:
+	_get_basic_input()
 	_move()
 	_animate()
+
+
+func _get_basic_input() -> void:
+	if Input.is_action_just_pressed("action"):
+		$Animation/AnimationTree.set(
+			"parameters/ToolOneShot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 
 
 func _move() -> void:
